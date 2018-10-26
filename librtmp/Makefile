@@ -15,8 +15,9 @@ CC=$(CROSS_COMPILE)gcc
 LD=$(CROSS_COMPILE)ld
 AR=$(CROSS_COMPILE)ar
 
-SYS=posix
-CRYPTO=OPENSSL
+#SYS=posix
+SYS=mingw
+#CRYPTO=OPENSSL
 #CRYPTO=GNUTLS
 DEF_POLARSSL=-DUSE_POLARSSL
 DEF_OPENSSL=-DUSE_OPENSSL
@@ -53,10 +54,12 @@ SODIR_darwin=$(LIBDIR)
 SODIR_mingw=$(BINDIR)
 SODIR=$(SODIR_$(SYS))
 
-SO_LDFLAGS_posix=-shared -Wl,-soname,$@
+#SO_LDFLAGS_posix=-shared -Wl,-soname,$@
+SO_LDFLAGS_posix=Wl,-soname,$@
 SO_LDFLAGS_darwin=-dynamiclib -twolevel_namespace -undefined dynamic_lookup \
 	-fno-common -headerpad_max_install_names -install_name $(libdir)/$@
-SO_LDFLAGS_mingw=-shared -Wl,--out-implib,librtmp.dll.a
+#SO_LDFLAGS_mingw=-shared -Wl,--out-implib,librtmp.dll.a
+SO_LDFLAGS_mingw=Wl,--out-implib,librtmp.dll.a
 SO_LDFLAGS=$(SO_LDFLAGS_$(SYS))
 
 INSTALL_IMPLIB_posix=
@@ -64,7 +67,8 @@ INSTALL_IMPLIB_darwin=
 INSTALL_IMPLIB_mingw=cp librtmp.dll.a $(LIBDIR)
 INSTALL_IMPLIB=$(INSTALL_IMPLIB_$(SYS))
 
-SHARED=yes
+#SHARED=yes
+SHARED=no
 SODEF_yes=-fPIC
 SOLIB_yes=librtmp$(SO_EXT)
 SOINST_yes=install_so

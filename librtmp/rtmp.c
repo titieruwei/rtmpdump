@@ -949,6 +949,12 @@ RTMP_Connect0(RTMP *r, struct sockaddr * service)
         RTMP_Log(RTMP_LOGERROR, "%s, Setting socket timeout to %ds failed!",
 	    __FUNCTION__, r->Link.timeout);
       }
+	if (setsockopt
+        (r->m_sb.sb_socket, SOL_SOCKET, SO_SNDTIMEO, (char *)&tv, sizeof(tv)))
+      {
+        RTMP_Log(RTMP_LOGERROR, "%s, Setting socket snd timeout to %ds failed!",
+	    __FUNCTION__, r->Link.timeout);
+      }
   }
 
   setsockopt(r->m_sb.sb_socket, IPPROTO_TCP, TCP_NODELAY, (char *) &on, sizeof(on));
